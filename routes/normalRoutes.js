@@ -24,6 +24,20 @@ function ensureAuth(req,res,next){
 //   console.log(ip)
 // })
 
+router.patch("/KickBack/:id", async (req, res) => {
+ 
+  const {CloserStatus,Status, AgentId,CloserId} = req.body
+ 
+try {
+  const sale = await Sale.findByIdAndUpdate(req.params.id, { CloserStatus, CloserId,Status ,AgentId});
+  
+  console.log(sale)
+  res.send(sale);
+} catch (e) {
+  console.log(e)
+  res.status(400).send(e);
+}
+});
 
 
 router.get('/all-user', async (req ,res) =>{
@@ -35,6 +49,14 @@ router.get('/all-user', async (req ,res) =>{
 }
 })
 
+router.get('/Users/:role', async (req ,res) =>{
+  try{
+    const users = await User.find({role: req.params.role}).select({_id:1, username:1})
+      res.send(users)
+} catch (e){
+    res.status(500).send(e)
+}
+})
 
 router.get("/all-sales", async (req, res) => {
   try {
@@ -57,9 +79,23 @@ User.findOne({_id:req.query.id}).select({'username':1}).exec(function(err,user){
 })
 
 router.get("/salesBy/:status", async (req, res) => {
-  console.log(req.params)
-  try {
-    const sales = await Sale.find({Status:req.params.status}).select({_id:1, Status:1,FullName:1,ContactNumber:1,updatedAt:1});
+  console.log(req.user,req.params.status)
+  try { 
+    // {Status:req.params.status}, $or:[{CloserId:req.user._id},{AdminId:req.user._id},{AgentId:req.user._id}
+    const sales = await Sale.find({
+      $and: [{ Status: req.params.status }],
+      $or: [
+        { CloserId: req.user._id },
+        { AdminId: req.user._id },
+        { AgentId: req.user._id }
+      ]
+    }).select({
+      _id: 1,
+      Status: 1,
+      FullName: 1,
+      ContactNumber: 1,
+      updatedAt: 1
+    });
     const SalesWithTime = sales.map(s=>({...s._doc,Time:new Date(s.updatedAt).toLocaleTimeString() , Date:new Date(s.updatedAt).toLocaleDateString()}))
     res.send(SalesWithTime);
   } catch (e) {
@@ -223,6 +259,30 @@ duplicate:req.body.duplicate
     return;
   })
 }) 
+
+router.post('/AuthUser',(req, res , next)=>{
+  const user = new User(req.user)
+  console.log("My user",req.body)
+  // res.send(user)
+  user.checkPassword(req.body.transferPassword, function(err, isMatch) {
+    // if (err) {
+    //   console.log( "why this error",err)
+    //    res.send(err);
+    //    return
+    // }
+    console.log(err, "is Match", isMatch);
+    if (isMatch) {
+      res.send(user);
+    } else {
+        res.status(400).send({
+        message: "Username or password is incorrect"
+      });
+    }
+  });
+
+
+})
+
 
 router.get('/adminInquire',(req,res,next)=>{ // ensureAuth
     Sale.count({},function(err,totalSale){

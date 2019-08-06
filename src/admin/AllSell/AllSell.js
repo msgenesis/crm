@@ -1030,21 +1030,55 @@ class AllSell extends Component {
         })
     }
     statusModalOpen(i) {
-        let { transferModal } = this.state;
-        transferModal[i].display = "block"
-        this.setState({
-            transferModal: transferModal,
-            pointerEvents: "none"
+        console.log(i ," View Status")
+        // event.preventDefault()
+        axios({
+            url:'/ViewStatus',
+            withCredentials:true,
+            method:'get',
+            params:{
+                id:i
+            }
         })
+        .then(res=>{
+
+            console.log(res.data)
+            if(res.data){
+
+                this.setState({
+                    //     transferModalDisplay: "block",
+                    //     pointerEvents: "none"
+                    // })
+              
+                    modalIndex: i,
+                    modal: "block",
+                    pointerEvents: "none",
+                    viewSale:res.data
+                })
+            }     
+        })
+        // let { transferModal } = this.state;
+        // transferModal[i].display = "block"
+        // this.setState({
+        //     transferModalDisplay: "block",
+        //     pointerEvents: "none"
+        // })
     }
     onTransferCLose(i) {
-        let { transferModal } = this.state;
-        transferModal[i].display = "none"
+        let { transferModalDisplay } = this.state;
+        transferModalDisplay = "none"
         this.setState({
-            transferModal: transferModal,
+            transferModalDisplay: transferModalDisplay,
             pointerEvents: "auto",
             transferCloser: []
         })
+        // let { transferModal } = this.state;
+        // transferModal[i].display = "none"
+        // this.setState({
+        //     transferModal: transferModal,
+        //     pointerEvents: "auto",
+        //     transferCloser: []
+        // })
     }
     searchUpdated(term) {
         this.setState({ searchTerm: term })
@@ -1160,7 +1194,7 @@ class AllSell extends Component {
             mmn, ssn, cc, cvc, exp, bal, aval, lastPay, duePay, aprl,
             SecurityWord, EmploymentStatus, HousingStatus,
             ChequinAccount, OtherLoan, Company, Designation, MonthlyMortgages,
-            Annualincome, CloserNotes, duePayDate, lastPayDate, Education } = this.state;
+            AnnualIncome, CloserNotes, duePayDate, lastPayDate,transferModalDisplay } = this.state;
          
             let user = {};
         return (
@@ -1217,12 +1251,12 @@ class AllSell extends Component {
                                                     </td>
                                                     <td>
                                                         <Button size="sm" color={'outline-success'} onClick={this.statusModalOpen.bind(this, i)}><i className="fa fa-eye"></i> View Status</Button>
-                                                        <div id="transferModal" className="modal" style={{ position: 'fixed', zIndex: 1, paddingTop: '100px', left: 0, top: 0, right: 0, width: '40%', height: '100%', overflow: 'auto', margin: "0 auto", marginTop: "90px", display: "none" }}>
+                                                        <div id="transferModal" className="modal" style={{ position: 'fixed', zIndex: 1, paddingTop: '100px', left: 0, top: 0, right: 0, width: '40%', height: '100%', overflow: 'auto', margin: "0 auto", marginTop: "90px", display:{ transferModalDisplay }}}>
                                                             <div className="modal-content">
-                                                                <div><p style={{ float: 'left', marginTop: 5 }}><b>ID#{v.ID}</b></p><p style={{ float: 'right' }} className="close" onClick={this.onTransferCLose.bind(this, i)}>&times;</p></div>
+                                                            <div><p style={{ float: 'left', marginTop: 5 }}><b>ID# {v._id}</b></p><p style={{ float: 'right' }} className="close" onClick={this.onTransferCLose.bind(this, i)}>&times;</p></div>
                                                                 <Row>
                                                                     <Col>
-                                                                        <Label htmlFor="vat">Agent: {v.Status}</Label>
+                                                                    <Label htmlFor="vat">Agent: {v._Agent}</Label>
                                                                         <select
                                                                             onChange={(e) => {
                                                                                 let { statusAgent } = this.state;
@@ -1235,7 +1269,7 @@ class AllSell extends Component {
                                                                 </Row>
                                                                 <Row>
                                                                     <Col>
-                                                                        <Label htmlFor="vat">Closer: {v.Status}</Label>
+                                                                    <Label htmlFor="vat">Closer: {v._Closer}</Label>
                                                                         <select
                                                                             onChange={(e) => {
                                                                                 let { statusCloser } = this.state;

@@ -3,18 +3,23 @@ const validator = require('validator')
 
 
 const accessIpSchema = new mongoose.Schema({
+    access: Boolean,
     ip: {
-        type: [String],
+        type: String,
         required: true,
         validate(value){
-            // if(){return}
-            console.log("schema", value[value.length-1])
-            if( value.length !== 0 &&  !validator.isIP(value[value.length-1]) ){
+            if(!validator.isIP(value)){
                 throw new  Error('ip is invalid')
             }
         }
-    }
+    },
+    _User: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
+        ref: 'User'
+      }
 })
+
 
 const accessIp = mongoose.model('AccessIp',accessIpSchema)
 

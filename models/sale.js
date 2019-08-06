@@ -57,6 +57,11 @@ const saleSchema = new mongoose.Schema(
       required: false, // this would be true 
       ref: "User"
     },
+    AdminId: {
+      type: mongoose.Schema.Types.ObjectId,//when you use in axios  wrapp this id in  ObjectId()
+      required: false, // this would be true 
+      ref: "User"
+    },
     CloserStatus:  {
       type: String,
       enum: ['Transfer','Pending','Approved',"Kick Back",'Rejected','Charged Back','Call Back'],
