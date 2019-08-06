@@ -1,0 +1,88 @@
+.modal {
+  display: block; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 60%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+    margin: 0 auto;
+    margin-top: 0px;
+
+  }
+  .modal::-webkit-scrollbar { width: 0 !important }
+
+  
+  /* Modal Content */
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 5px solid #2f353a;
+    width: 100%;
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaaaaa;
+    /* float: left !important; */
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  @media screen and (max-width: 600px) {   
+     .modal {
+      width: 100%; /* Full width */
+    }
+    td {
+      max-width: 200px;
+    }
+  }
+  
+  td {
+    max-width: 50px;
+  }
+  @media screen and (max-width: 990px) {   
+     .modal {
+      width: 100%; /* Full width */
+    }
+    td {
+      max-width: 200px;
+    }
+  }
+  
+  td {
+    max-width: 50px;
+  }
+  .tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}

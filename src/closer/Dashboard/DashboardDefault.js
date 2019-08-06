@@ -1,0 +1,72 @@
+import React, { Component, Suspense } from 'react';
+import { Container } from 'reactstrap';
+import {
+  AppAside,
+  AppBreadcrumb,
+  AppFooter,
+  AppHeader,
+  AppSidebar,
+  AppSidebarFooter,
+  AppSidebarHeader,
+  AppSidebarMinimizer,
+  AppSidebarNav,
+} from '@coreui/react';
+import navigationCloser from '../../_navCloser';
+import Dashboard from './Dashboard';
+
+
+const DefaultAside = React.lazy(() => import('../../containers/DefaultLayout/DefaultAside'));
+const DefaultFooter = React.lazy(() => import('../../containers/DefaultLayout/DefaultFooter'));
+const DefaultHeader = React.lazy(() => import('../../containers/DefaultLayout/DefaultHeader'));
+
+class DashboardDefaultCloser extends Component {
+
+  loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+
+  signOut(e) {
+    e.preventDefault()
+    this.props.history.push('/login')
+  }
+
+  render() {
+    return (
+      <div className="app">
+        <AppHeader fixed>
+          <Suspense fallback={this.loading()}>
+            <DefaultHeader user="Closer" onLogout={e => this.signOut(e)} />
+          </Suspense>
+        </AppHeader>
+        <div className="app-body">
+          <AppSidebar fixed display="lg">
+            <AppSidebarHeader />
+            <Suspense>
+              <AppSidebarNav navConfig={navigationCloser} {...this.props} />
+            </Suspense>
+            <AppSidebarFooter />
+            <AppSidebarMinimizer />
+          </AppSidebar>
+          <main className="main" style={{ backgroundColor: "#f5f5f5" }}>
+            <AppBreadcrumb />
+            <Container fluid>
+              <Suspense fallback={this.loading()}>
+                  <Dashboard />
+              </Suspense>
+            </Container>
+          </main>
+          <AppAside fixed>
+            <Suspense fallback={this.loading()}>
+              <DefaultAside />
+            </Suspense>
+          </AppAside>
+        </div>
+        <AppFooter>
+          <Suspense fallback={this.loading()}>
+            <DefaultFooter />
+          </Suspense>
+        </AppFooter>
+      </div>
+    );
+  }
+}
+
+export default DashboardDefaultCloser;
