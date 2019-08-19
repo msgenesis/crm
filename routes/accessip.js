@@ -26,22 +26,22 @@ router.get("/accessIps", async (req, res, next) => {
   });
   
 
-router.get("/accessIp", async (req, res,next) => {
-  let accessIps = await AccessIp.findOne({});
-  const accessIp = new AccessIp({ip:[]}); 
-  console.log(!accessIp)
-  try {
-    if(!accessIps) {
-      await  accessIp.save();
+  router.get("/accessIp", async (req, res,next) => {
+    let accessIps = await AccessIp.findOne({});
+    const accessIp = new AccessIp({ip:[]}); 
+    console.log("this ips",accessIps)
+    try {
+      if(!accessIps) {
+        await  accessIp.save();
+        res.send(accessIp);
+        next();
+      }
       res.send(accessIps);
-      next();
+    } catch (e) {
+      res.status(500).send(e);
     }
-    res.send(accessIps);
-  } catch (e) {
-    res.status(500).send(e);
-  }
-});
-
+  });
+  
 
 router.patch("/accessIp/:id", async (req, res) => {
   const updates = Object.keys(req.body);
