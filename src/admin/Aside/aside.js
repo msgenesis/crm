@@ -25,7 +25,7 @@ class AdminDefaultAside extends Component {
             AllUsers: [],
             checked: false,
             ip: "",
-            ipList:{ip:["123.123.123.123"]}
+            ipList:{ip:[]}
         };
         this.toggle = this.toggle.bind(this);
         this.getIP = this.getIP.bind(this);
@@ -107,8 +107,8 @@ class AdminDefaultAside extends Component {
         // })
         axios.get('/accessIp')
         .then( res => {
-            console.log(res.data)
-        //   this.setState({ipList:res.data})
+          this.setState({ipList:res.data})
+          console.log(res.data)
         })
         .catch( err =>{
           console.log(err)
@@ -164,7 +164,6 @@ class AdminDefaultAside extends Component {
         // eslint-disable-next-line
         const { children, ...attributes } = this.props;
         console.log(this.state)
-        console.log("list of ip is", this.state.ipList)
         return (
             <React.Fragment>
                 <Nav tabs>
@@ -259,7 +258,7 @@ class AdminDefaultAside extends Component {
                             <input type="text" className="format" value={this.state.ip} onChange={(e) => { this.setState({ ip: e.target.value }) }} />
                             <Button onClick={this.addNewIp.bind(this)} style={{ marginTop: 10, float: "right", width: "100%" }} size="sm" color={'outline-dark'}><i className="fa fa-ip"></i> Add IP</Button>
                             <div style={{ marginTop: 50 }}>
-                                {  this.state.ipList.ip.map((v, i) => {
+                                {    this.state.ipList.ip.map((v, i) => {
                                     return <div key={i} style={{ border: '1px solid green', padding: '5px',marginTop: 5 }}>
                                         {v}
                                         <i onClick={this.deleteIP.bind(this,i)} style={{ float: "right", fontSize: 18, color: "red", cursor: "pointer" }} className="icon-trash"></i>
