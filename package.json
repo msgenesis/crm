@@ -69,7 +69,7 @@
     "luhn": "^2.4.0",
     "material-ui": "^0.20.0",
     "mongoose": "5.0.12",
-    "nodemailer": "^4.6.4",
+    "nodemailer": "^6.4.16",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
