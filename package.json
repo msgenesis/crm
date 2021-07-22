@@ -97,6 +97,6 @@
     "redux-thunk": "^2.3.0",
     "simple-line-icons": "^2.4.1",
     "sweet-alert": "^1.0.1",
-    "xlsx": "^0.14.3"
+    "xlsx": "^0.17.0"
   }
 }
