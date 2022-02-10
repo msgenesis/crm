@@ -27,7 +27,7 @@
     "jsx-loader": "^0.13.2",
     "less": "^3.0.1",
     "less-loader": "^4.1.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "nodemon": "^1.19.1",
     "sass-loader": "^6.0.7",
     "style-loader": "^0.20.3",
